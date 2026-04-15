@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cuenta · James en Corea</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body { background: var(--verde-oscuro); min-height: 100vh; display: flex; flex-direction: column; font-family: 'DM Sans', sans-serif; }
+
+        .registro-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+
+        .registro-card { width: 100%; max-width: 460px; }
+
+        .registro-title { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 900; color: var(--blanco-nav); letter-spacing: -0.03em; margin-bottom: 0.3rem; }
+
+        .registro-sub { font-size: 0.82rem; color: rgba(232,245,224,0.4); margin-bottom: 2rem; }
+
+        .registro-form-box { background: rgba(232,245,224,0.05); border: 1px solid rgba(232,245,224,0.1); border-radius: 16px; padding: 2rem; }
+
+        /* Ocultar labels feos del UserCreationForm y reestilizar los inputs */
+        .registro-form-box p { margin-bottom: 1.1rem; }
+        .registro-form-box label { display: block; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(232,245,224,0.45); margin-bottom: 0.4rem; }
+        .registro-form-box input { width: 100%; background: rgba(232,245,224,0.07); border: 1px solid rgba(232,245,224,0.15); border-radius: 8px; padding: 10px 14px; color: var(--blanco-nav); font-size: 0.88rem; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color .2s; }
+        .registro-form-box input:focus { border-color: rgba(232,245,224,0.4); }
+        .registro-form-box input::placeholder { color: rgba(232,245,224,0.2); }
+        /* Ocultar el helptext del UserCreationForm */
+        .registro-form-box ul { display: none; }
+        .registro-form-box .helptext { display: none; }
+
+        /* SELECTOR DE ROL */
+        .rol-label { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(232,245,224,0.45); margin-bottom: 0.7rem; display: block; }
+        .rol-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.4rem; }
+        .rol-options input[type="radio"] { display: none; }
+        .rol-options label {
+            display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+            background: rgba(232,245,224,0.05);
+            border: 1.5px solid rgba(232,245,224,0.12);
+            border-radius: 10px; padding: 0.9rem 0.5rem;
+            cursor: pointer; transition: all .2s;
+            font-size: 0.75rem; font-weight: 500; color: rgba(232,245,224,0.5);
+            letter-spacing: 0.04em; text-transform: uppercase;
+        }
+        .rol-options label .rol-icon { font-size: 1.3rem; }
+        .rol-options input[type="radio"]:checked + label {
+            background: rgba(232,245,224,0.12);
+            border-color: var(--verde-claro);
+            color: var(--verde-claro);
+        }
+
+        .divider { height: 1px; background: rgba(232,245,224,0.08); margin: 1.4rem 0; }
+
+        .btn-registro { width: 100%; padding: 12px; background: var(--verde-medio, #2D6A4F); color: #fff; border: none; border-radius: 30px; font-size: 0.88rem; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background .2s; margin-top: 0.5rem; }
+        .btn-registro:hover { background: #1B4332; }
+
+        .registro-footer { margin-top: 1.3rem; text-align: center; font-size: 0.82rem; color: rgba(232,245,224,0.35); }
+        .registro-footer a { color: var(--verde-claro); font-weight: 500; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+</nav>
+
+<div class="registro-wrap">
+    <div class="registro-card">
+        <h1 class="registro-title">Crear cuenta</h1>
+        <p class="registro-sub">Guarda tus vlogs favoritos y accede a la sala de estudio de coreano.</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-error" style="margin-bottom:1rem">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="registro-form-box">
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- SELECTOR DE ROL -->
+                <span class="rol-label">Tipo de cuenta</span>
+                <div class="rol-options">
+                    <div>
+                        <input type="radio" name="rol" id="rol-usuario" value="Usuario" checked>
+                        <label for="rol-usuario">
+                            <span class="rol-icon">👤</span>
+                            Usuario
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="rol" id="rol-marketing" value="Marketing">
+                        <label for="rol-marketing">
+                            <span class="rol-icon">📣</span>
+                            Marketing
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="rol" id="rol-admin" value="Admin">
+                        <label for="rol-admin">
+                            <span class="rol-icon">⚙️</span>
+                            Admin
+                        </label>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Campos del UserCreationForm (username + password x2) -->
+                {{ form.as_p }}
+
+                <button type="submit" class="btn-registro">Crear cuenta →</button>
+            </form>
+        </div>
+
+        <p class="registro-footer">
+            ¿Ya tienes cuenta?
+            <a href="/usuarios/login/">Inicia sesión</a>
+        </p>
+    </div>
+</div>
+
+<footer class="footer"><p>James en Corea del Sur — Seúl, 2026</p></footer>
+</body>
+</html>

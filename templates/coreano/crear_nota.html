@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva nota · James en Corea</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+    <div class="nav-links">
+        <a href="/coreano/notas/" class="btn btn-secondary" style="padding:7px 18px">← Volver</a>
+    </div>
+</nav>
+<main class="main-content">
+    <div class="form-container">
+        <h2 class="form-title">Nueva nota</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Título</label>
+                <input type="text" name="titulo" placeholder="ej: Vocabulario semana 1" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Contenido</label>
+                <textarea name="contenido" rows="8"
+                    placeholder="안녕하세요 = Hola&#10;감사합니다 = Gracias&#10;..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-dark" style="width:100%;padding:10px">Guardar nota</button>
+            <a href="/coreano/notas/" class="btn btn-outline"
+               style="width:100%;margin-top:0.7rem;text-align:center;display:block;padding:10px">Cancelar</a>
+        </form>
+    </div>
+</main>
+<footer class="footer"><p>James en Corea del Sur — Seúl, 2026</p></footer>
+</body>
+</html>

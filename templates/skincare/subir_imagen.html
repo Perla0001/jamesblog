@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir imagen · {{ producto.nombre }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+    <div class="nav-links">
+        <a href="/usuarios/logout/" class="btn btn-secondary" style="padding:7px 18px">Salir</a>
+    </div>
+</nav>
+<main class="main-content">
+    <div class="form-container">
+        <span class="badge-marketing">Marketing</span>
+        <h2 class="form-title" style="margin-top:1rem">Subir imagen</h2>
+        <p style="font-size:0.8rem;color:var(--texto-suave);margin-bottom:1.5rem;line-height:1.6">
+            Producto: <strong style="color:var(--texto)">{{ producto.nombre }}</strong><br>
+            <span style="font-size:0.72rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--verde-medio)">{{ producto.marca }}</span>
+        </p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Selecciona la imagen</label>
+                <input type="file" name="imagen" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn btn-dark" style="width:100%;padding:10px;margin-top:0.5rem">Guardar imagen</button>
+            <a href="/skincare/{{ producto.pk }}/" class="btn btn-outline"
+               style="width:100%;margin-top:0.7rem;text-align:center;display:block;padding:10px">Cancelar</a>
+        </form>
+    </div>
+</main>
+<footer class="footer"><p>James en Corea del Sur — Seúl, 2026</p></footer>
+</body>
+</html>

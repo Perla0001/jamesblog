@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala de estudio · James en Corea</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+    <div class="nav-links">
+        <a href="/vlogs/">Vlogs</a>
+        <a href="/skincare/">Skincare</a>
+        <a href="/coreano/">Coreano</a>
+        <a href="/coreano/notas/">Mis notas</a>
+        <a href="/usuarios/logout/" class="btn btn-primary" style="padding:7px 18px">Salir</a>
+    </div>
+</nav>
+
+<section style="background:var(--verde-oscuro);padding:3rem 2.5rem 2.5rem">
+    <div class="hero-tag">Sala de estudio</div>
+    <h1 style="font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;line-height:0.95;color:var(--blanco-nav);letter-spacing:-0.03em;margin-bottom:1rem">
+        Estudia<br><em style="color:var(--verde-claro)">coreano</em>
+    </h1>
+    <p style="font-size:0.85rem;color:rgba(232,245,224,0.5);max-width:340px;line-height:1.7">
+        Método Pomodoro — 25 minutos de foco profundo.
+    </p>
+</section>
+
+<main class="main-content">
+    <div class="pomodoro">
+        <p class="timer-label">Tiempo de estudio</p>
+        <div class="timer" id="timer-display">25:00</div>
+        <p id="timer-estado" style="font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(232,245,224,0.3);margin-top:-0.3rem">
+            Listo para empezar
+        </p>
+        <div class="timer-btns">
+            <button class="btn btn-primary" id="btn-iniciar">Iniciar</button>
+            <button class="btn btn-secondary" id="btn-reiniciar">Reiniciar</button>
+        </div>
+    </div>
+
+    <div style="max-width:640px;margin:0 auto">
+        <div class="section-header">
+            <h2 class="section-title">Mis notas</h2>
+            <a href="/coreano/notas/crear/" class="btn btn-dark" style="padding:7px 20px">+ Nueva nota</a>
+        </div>
+        <p style="font-size:0.85rem;color:var(--texto-suave);line-height:1.6">
+            Guarda vocabulario, gramática y apuntes de clase.
+            <a href="/coreano/notas/" style="color:var(--verde-medio);font-weight:500">Ver todas mis notas →</a>
+        </p>
+    </div>
+</main>
+
+<footer class="footer"><p>James en Corea del Sur — Seúl, 2026</p></footer>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

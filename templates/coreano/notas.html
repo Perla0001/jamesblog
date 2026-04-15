@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis notas · James en Corea</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+    <div class="nav-links">
+        <a href="/coreano/">Sala de estudio</a>
+        <a href="/usuarios/logout/" class="btn btn-primary" style="padding:7px 18px">Salir</a>
+    </div>
+</nav>
+
+<main class="main-content" style="max-width:700px">
+    <div class="section-header">
+        <h1 class="section-title">Mis notas</h1>
+        <a href="/coreano/notas/crear/" class="btn btn-dark" style="padding:7px 20px">+ Nueva</a>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:0.8rem;margin-top:1rem">
+        {% for nota in notas %}
+        <div style="background:#fff;border:1px solid var(--crema-borde);border-radius:10px;padding:1.3rem 1.4rem">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:1rem">
+                <div style="flex:1">
+                    <h3 style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--texto);margin-bottom:0.3rem;letter-spacing:-0.01em">
+                        {{ nota.titulo }}
+                    </h3>
+                    <p style="font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--texto-suave);margin-bottom:0.7rem">
+                        {{ nota.fecha|date:"d/m/Y" }}
+                    </p>
+                    <p style="font-size:0.85rem;color:var(--texto-suave);line-height:1.6">
+                        {{ nota.contenido|truncatewords:25 }}
+                    </p>
+                </div>
+                <a href="/coreano/notas/{{ nota.pk }}/eliminar/"
+                   class="btn btn-danger"
+                   style="font-size:0.68rem;padding:6px 12px;white-space:nowrap"
+                   onclick="return confirm('¿Eliminar esta nota?')">Eliminar</a>
+            </div>
+        </div>
+        {% empty %}
+        <div style="text-align:center;padding:4rem 2rem;background:#fff;border-radius:10px;border:1px solid var(--crema-borde)">
+            <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.3rem;color:var(--texto-suave);margin-bottom:1rem">
+                Todavía no tienes notas
+            </p>
+            <a href="/coreano/notas/crear/" class="btn btn-dark" style="padding:10px 24px">Crear mi primera nota</a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top:2rem">
+        <a href="/coreano/" class="btn btn-outline">← Sala de estudio</a>
+    </div>
+</main>
+
+<footer class="footer"><p>James en Corea del Sur — Seúl, 2026</p></footer>
+</body>
+</html>

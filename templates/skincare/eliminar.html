@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar producto · James en Corea</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+</nav>
+<main class="main-content" style="max-width:520px">
+    <div style="background:#fff;border:1px solid var(--crema-borde);border-radius:12px;padding:2rem;text-align:center;margin-top:2rem">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--texto);margin-bottom:0.6rem">
+            ¿Eliminar este producto?
+        </h2>
+        <p style="font-size:0.9rem;color:var(--texto-suave);margin-bottom:0.3rem">
+            <strong style="color:var(--texto)">{{ producto.nombre }}</strong> — {{ producto.marca }}
+        </p>
+        <p style="font-size:0.8rem;color:var(--texto-suave);margin-bottom:1.8rem">Esta acción no se puede deshacer.</p>
+        <form method="post" style="display:flex;gap:0.8rem;justify-content:center">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" style="padding:10px 24px">Sí, eliminar</button>
+            <a href="/skincare/{{ producto.pk }}/" class="btn btn-outline" style="padding:10px 20px">Cancelar</a>
+        </form>
+    </div>
+</main>
+<footer class="footer"><p>James en Corea del Sur — Seúl, 2026</p></footer>
+</body>
+</html>

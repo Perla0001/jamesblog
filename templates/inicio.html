@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>James en Corea</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+    <div class="nav-links">
+        <a href="/vlogs/">Vlogs</a>
+        <a href="/skincare/">Skincare</a>
+        <a href="/coreano/">Coreano</a>
+        {% if user.is_authenticated %}
+            <a href="/usuarios/perfil/">Perfil</a>
+            <a href="/usuarios/logout/" class="btn btn-primary" style="padding:7px 18px">Salir</a>
+        {% else %}
+            <a href="/usuarios/login/" class="btn btn-secondary" style="padding:7px 18px">Entrar</a>
+            <a href="/usuarios/registro/" class="btn btn-primary" style="padding:7px 18px">Registro</a>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div>
+        <div class="hero-tag">Seúl, Corea del Sur</div>
+        <h1>Viviendo<br>en <em>Corea</em><br>del Sur</h1>
+        <p class="hero-desc">
+            Vlogs de viaje, skincare coreano y recursos para aprender el idioma — desde la experiencia real de James.
+        </p>
+        <div class="hero-btns">
+            <a href="/vlogs/" class="btn btn-primary">Ver guías</a>
+            <a href="/skincare/" class="btn btn-secondary">Skincare</a>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="hero-stats">
+            <div>
+                <div class="stat-num">3+</div>
+                <div class="stat-label">Años en Corea</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div>
+                <div class="stat-num">50+</div>
+                <div class="stat-label">Guías publicadas</div>
+            </div>
+        </div>
+            <div class="hero-img-placeholder">
+                Aférrate a tus sueños
+                porque si los sueños mueren
+                la vida es como un pájaro de alas rotas
+                incapaz de volar.
+                Aférrate a tus sueños
+                porque si los sueños se marchan
+                la vida es como un campo yermo
+                cubierto de escarcha.
+                Sueños - Langston Hughes
+            </div>
+    </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+    <div class="ticker-inner">
+        <span class="ticker-item">Vlogs de viaje <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Skincare coreano <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Estudia coreano <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Guías de Corea del Sur <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Tailandia <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Importar desde Corea <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Vlogs de viaje <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Skincare coreano <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Estudia coreano <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Guías de Corea del Sur <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Tailandia <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Importar desde Corea <span class="ticker-dot"></span></span>
+    </div>
+</div>
+
+<main class="main-content">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- ÚLTIMAS ENTRADAS -->
+    <div class="section-header">
+        <h2 class="section-title">Últimas entradas</h2>
+        <a href="/vlogs/" class="section-link">Ver todas →</a>
+    </div>
+
+    <div class="cards-grid" style="margin-bottom:3rem">
+        {% for post in posts %}
+        <div class="card">
+            {% if post.imagen %}
+                <img src="{{ post.imagen.url }}" alt="{{ post.titulo }}">
+            {% else %}
+                <div class="card-thumb thumb-{{ post.destino }}">
+                    <div class="card-thumb-country">{{ post.destino|upper|slice:":2" }}</div>
+                    <span class="card-tag tag-{{ post.destino }}">{{ post.get_destino_display }}</span>
+                </div>
+            {% endif %}
+            <div class="card-body">
+                <p class="card-tag tag-{{ post.destino }}" style="margin-bottom:0.6rem">{{ post.get_destino_display }}</p>
+                <div class="card-title">{{ post.titulo }}</div>
+                <p class="card-text">{{ post.descripcion|truncatewords:18 }}</p>
+                <a href="/vlogs/{{ post.pk }}/" class="btn btn-dark" style="padding:7px 18px">Leer más</a>
+            </div>
+        </div>
+        {% empty %}
+        <p style="color:var(--texto-suave);font-size:0.88rem;grid-column:1/-1">Próximamente el primer vlog...</p>
+        {% endfor %}
+    </div>
+
+    <!-- MÓDULOS -->
+    <div class="section-header">
+        <h2 class="section-title">Explora el sitio</h2>
+    </div>
+    <div class="modules-grid">
+        <div class="module-card">
+            <div class="module-num">01</div>
+            <h3>Vlogs & Viajes</h3>
+            <p>Rutas reales por Corea del Sur y Tailandia con tips de primera mano.</p>
+        </div>
+        <div class="module-card">
+            <div class="module-num">02</div>
+            <h3>Skincare coreano</h3>
+            <p>Qué comprar, dónde y cómo importarlo a Latinoamérica y Europa.</p>
+        </div>
+        <div class="module-card">
+            <div class="module-num">03</div>
+            <h3>Estudio de coreano</h3>
+            <p>Temporizador Pomodoro y tus notas personales en un solo lugar.</p>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <p>James en Corea del Sur — Seúl, 2026</p>
+</footer>
+
+</body>
+</html>

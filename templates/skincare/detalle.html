@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ producto.nombre }} · James en Corea</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .breadcrumb { display:flex; align-items:center; gap:0.5rem; padding:1.2rem 2rem 0; font-size:0.75rem; color:#888; }
+        .breadcrumb a { color:#2D6A4F; text-decoration:none; }
+        .breadcrumb span { color:#ccc; }
+        .producto-hero { display:grid; grid-template-columns:1fr 1.1fr; max-width:960px; margin:1.5rem auto 0; background:#fff; border-radius:20px; overflow:hidden; box-shadow:0 4px 40px rgba(0,0,0,0.07); }
+        .producto-img-wrap { background:linear-gradient(135deg,#D8F3DC 0%,#B7E4C7 100%); display:flex; align-items:center; justify-content:center; min-height:380px; position:relative; overflow:hidden; }
+        .producto-img-wrap img { width:100%; height:100%; object-fit:cover; }
+        .admin-strip { position:absolute; top:1rem; right:1rem; display:flex; gap:0.5rem; }
+        .btn-edit { background:#fff; color:#2D6A4F; border:1px solid #2D6A4F; font-size:0.72rem; padding:5px 12px; border-radius:6px; text-decoration:none; }
+        .btn-del { background:#fff; color:#c0392b; border:1px solid #c0392b; font-size:0.72rem; padding:5px 12px; border-radius:6px; text-decoration:none; }
+        .producto-info { padding:2.5rem 2.8rem; display:flex; flex-direction:column; justify-content:center; }
+        .categoria-tag { display:inline-block; background:#D8F3DC; color:#1B4332; font-size:0.68rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; padding:4px 12px; border-radius:20px; margin-bottom:1rem; }
+        .producto-nombre { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; line-height:1.15; color:#1B4332; margin-bottom:0.4rem; }
+        .producto-marca { font-size:0.82rem; color:#888; margin-bottom:1.2rem; letter-spacing:0.04em; }
+        .producto-desc { font-size:0.88rem; color:#555; line-height:1.8; margin-bottom:1.8rem; }
+        .btn-fav { display:inline-flex; align-items:center; gap:0.5rem; border:1.5px solid #2D6A4F; background:transparent; color:#2D6A4F; font-size:0.82rem; font-weight:500; padding:10px 22px; border-radius:30px; cursor:pointer; transition:all .25s; }
+        .btn-fav:hover { background:#2D6A4F; color:#fff; }
+        .btn-fav.guardado { background:#2D6A4F; color:#fff; }
+        .guias-wrap { max-width:960px; margin:2rem auto 0; display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+        .guia-card { border-radius:14px; padding:1.6rem; }
+        .guia-card.latam { background:#FEF3EE; }
+        .guia-card.europa { background:#EEEDFE; }
+        .guia-titulo { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; margin-bottom:0.6rem; }
+        .guia-card.latam .guia-titulo { color:#712B13; }
+        .guia-card.europa .guia-titulo { color:#3C3489; }
+        .guia-badge { display:inline-block; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; padding:3px 8px; border-radius:4px; margin-bottom:0.7rem; font-weight:500; }
+        .guia-card.latam .guia-badge { background:#FDDFD5; color:#712B13; }
+        .guia-card.europa .guia-badge { background:#DDD9FC; color:#3C3489; }
+        .guia-text { font-size:0.82rem; color:#555; line-height:1.75; }
+        @media (max-width: 680px) {
+            .producto-hero { grid-template-columns:1fr; }
+            .guias-wrap { grid-template-columns:1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+    <div class="nav-links">
+        <a href="/vlogs/">Vlogs</a>
+        <a href="/skincare/">Skincare</a>
+        <a href="/coreano/">Coreano</a>
+        {% if user.is_authenticated %}
+            <a href="/usuarios/perfil/">Mi perfil</a>
+            <a href="/usuarios/logout/" class="btn btn-primary" style="padding:7px 18px">Salir</a>
+        {% else %}
+            <a href="/usuarios/login/" class="btn btn-secondary" style="padding:7px 18px">Entrar</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="breadcrumb">
+    <a href="/">Inicio</a><span>/</span>
+    <a href="/skincare/">Skincare</a><span>/</span>
+    <span style="color:#2A2A2A">{{ producto.nombre }}</span>
+</div>
+
+<div class="producto-hero">
+    <div class="producto-img-wrap">
+        {% if producto.imagen %}
+            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+        {% endif %}
+        {% if user.is_staff %}
+        <div class="admin-strip">
+            <a href="/skincare/{{ producto.pk }}/editar/" class="btn-edit">✏️ Editar</a>
+            <a href="/skincare/{{ producto.pk }}/eliminar/" class="btn-del">🗑 Eliminar</a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="producto-info">
+        <span class="categoria-tag">{{ producto.get_categoria_display }}</span>
+        <h1 class="producto-nombre">{{ producto.nombre }}</h1>
+        <p class="producto-marca">{{ producto.marca }}</p>
+        <p class="producto-desc">{{ producto.descripcion }}</p>
+
+        {% if user.is_authenticated %}
+            <form method="post" action="/skincare/{{ producto.pk }}/favorito/">
+                {% csrf_token %}
+                <button type="submit" class="btn-fav {% if ya_es_favorito %}guardado{% endif %}">
+                    {% if ya_es_favorito %}❤️ Guardado en favoritos{% else %}🤍 Guardar en favoritos{% endif %}
+                </button>
+            </form>
+        {% else %}
+            <a href="/usuarios/login/" class="btn-fav">🤍 Inicia sesión para guardar</a>
+        {% endif %}
+    </div>
+</div>
+
+{% if producto.guia_latam or producto.guia_europa %}
+<div class="guias-wrap">
+    {% if producto.guia_latam %}
+    <div class="guia-card latam">
+        <span class="guia-badge">🌎 Latinoamérica</span>
+        <h3 class="guia-titulo">Cómo importarlo a Latinoamérica</h3>
+        <p class="guia-text">{{ producto.guia_latam }}</p>
+    </div>
+    {% endif %}
+    {% if producto.guia_europa %}
+    <div class="guia-card europa">
+        <span class="guia-badge">🇪🇺 Europa</span>
+        <h3 class="guia-titulo">Cómo importarlo a Europa</h3>
+        <p class="guia-text">{{ producto.guia_europa }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+<footer class="footer"><p>James en Corea del Sur — Seúl, 2026</p></footer>
+</body>
+</html>

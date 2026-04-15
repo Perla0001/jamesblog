@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar producto · James en Corea</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+    <div class="nav-links">
+        <a href="/skincare/{{ producto.pk }}/" class="btn btn-secondary" style="padding:7px 18px">← Volver</a>
+    </div>
+</nav>
+<main class="main-content" style="max-width:680px">
+    <div style="margin-bottom:1.5rem">
+        <span class="badge-admin">Admin</span>
+        <h1 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;letter-spacing:-0.03em;margin-top:0.6rem">
+            Editar producto
+        </h1>
+    </div>
+
+    <form method="post" enctype="multipart/form-data"
+          style="background:#fff;border:1px solid var(--crema-borde);border-radius:12px;padding:2rem;display:flex;flex-direction:column;gap:1.2rem">
+        {% csrf_token %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="form-group" style="margin:0">
+                <label>Nombre del producto</label>
+                <input type="text" name="nombre" value="{{ producto.nombre }}" required>
+            </div>
+            <div class="form-group" style="margin:0">
+                <label>Marca</label>
+                <input type="text" name="marca" value="{{ producto.marca }}" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Categoría</label>
+            <select name="categoria" required>
+                {% for val, label in categorias %}
+                <option value="{{ val }}" {% if producto.categoria == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Descripción y reseña</label>
+            <textarea name="descripcion" rows="6">{{ producto.descripcion }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Guía para Latinoamérica</label>
+            <textarea name="guia_latam" rows="4">{{ producto.guia_latam }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Guía para Europa</label>
+            <textarea name="guia_europa" rows="4">{{ producto.guia_europa }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Nueva imagen <span style="color:var(--texto-suave);font-weight:400">(deja vacío para mantener la actual)</span></label>
+            {% if producto.imagen %}
+            <img src="{{ producto.imagen.url }}" alt="Imagen actual"
+                 style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-bottom:0.8rem">
+            {% endif %}
+            <input type="file" name="imagen" accept="image/*">
+        </div>
+
+        <div style="display:flex;gap:0.8rem;padding-top:0.5rem">
+            <button type="submit" class="btn btn-dark" style="padding:10px 28px">Guardar cambios</button>
+            <a href="/skincare/{{ producto.pk }}/" class="btn btn-outline" style="padding:10px 20px">Cancelar</a>
+        </div>
+    </form>
+</main>
+<footer class="footer"><p>James en Corea del Sur — Seúl, 2026</p></footer>
+</body>
+</html>

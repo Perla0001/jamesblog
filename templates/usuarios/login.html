@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar · James en Corea</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body style="background:var(--verde-oscuro);min-height:100vh;display:flex;flex-direction:column">
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+</nav>
+<main style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem">
+    <div style="width:100%;max-width:420px">
+        <h1 style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--blanco-nav);letter-spacing:-0.03em;margin-bottom:0.4rem">
+            Bienvenido
+        </h1>
+        <p style="font-size:0.82rem;color:rgba(232,245,224,0.4);margin-bottom:2rem">
+            Inicia sesión para guardar favoritos y acceder a tus notas.
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-error" style="margin-bottom:1rem">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div style="background:rgba(232,245,224,0.05);border:1px solid rgba(232,245,224,0.1);border-radius:12px;padding:1.8rem">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label style="color:rgba(232,245,224,0.5)">Usuario</label>
+                    <input type="text" name="username" placeholder="Tu nombre de usuario" required autofocus
+                           style="background:rgba(232,245,224,0.07);border-color:rgba(232,245,224,0.15);color:var(--blanco-nav)">
+                </div>
+                <div class="form-group">
+                    <label style="color:rgba(232,245,224,0.5)">Contraseña</label>
+                    <input type="password" name="password" placeholder="••••••••" required
+                           style="background:rgba(232,245,224,0.07);border-color:rgba(232,245,224,0.15);color:var(--blanco-nav)">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;padding:11px;margin-top:0.5rem">
+                    Entrar
+                </button>
+            </form>
+        </div>
+
+        <p style="margin-top:1.2rem;text-align:center;font-size:0.82rem;color:rgba(232,245,224,0.35)">
+            ¿No tienes cuenta?
+            <a href="/usuarios/registro/" style="color:var(--verde-claro);font-weight:500">Regístrate gratis</a>
+        </p>
+    </div>
+</main>
+<footer class="footer"><p>James en Corea del Sur — Seúl, 2026</p></footer>
+</body>
+</html>

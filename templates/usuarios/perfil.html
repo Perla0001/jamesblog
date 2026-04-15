@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi perfil · James en Corea</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+    <div class="nav-links">
+        <a href="/vlogs/">Vlogs</a>
+        <a href="/skincare/">Skincare</a>
+        <a href="/coreano/">Coreano</a>
+        <a href="/usuarios/logout/" class="btn btn-primary" style="padding:7px 18px">Salir</a>
+    </div>
+</nav>
+
+<section style="background:var(--verde-oscuro);padding:2.5rem 2.5rem 2rem">
+    <div style="display:flex;align-items:center;gap:1.3rem">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--verde-claro);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--verde-oscuro)">
+            {{ user.username|first|upper }}
+        </div>
+        <div>
+            <h1 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--blanco-nav);letter-spacing:-0.02em">
+                {{ user.username }}
+            </h1>
+            <p style="font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(232,245,224,0.35);margin-top:3px">
+                Miembro desde {{ user.date_joined|date:"d/m/Y" }}
+            </p>
+        </div>
+        <div style="margin-left:auto">
+            {% for grupo in user.groups.all %}
+                {% if grupo.name == 'Admin' %}<span class="badge-admin">Admin</span>
+                {% elif grupo.name == 'Marketing' %}<span class="badge-marketing">Marketing</span>
+                {% endif %}
+            {% empty %}
+                <span class="badge-user">Usuario</span>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<main class="main-content" style="max-width:600px">
+    <div style="display:flex;flex-direction:column;gap:0.7rem">
+        <a href="/vlogs/" style="background:#fff;border:1px solid var(--crema-borde);border-radius:10px;padding:1rem 1.3rem;display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--texto)">
+            <div>
+                <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem">Vlogs & Viajes</div>
+                <div style="font-size:0.78rem;color:var(--texto-suave);margin-top:2px">Corea del Sur y Tailandia</div>
+            </div>
+            <span style="color:var(--verde-medio);font-size:0.85rem">→</span>
+        </a>
+        <a href="/skincare/" style="background:#fff;border:1px solid var(--crema-borde);border-radius:10px;padding:1rem 1.3rem;display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--texto)">
+            <div>
+                <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem">Skincare coreano</div>
+                <div style="font-size:0.78rem;color:var(--texto-suave);margin-top:2px">Guías de importación</div>
+            </div>
+            <span style="color:var(--verde-medio);font-size:0.85rem">→</span>
+        </a>
+        <a href="/coreano/" style="background:#fff;border:1px solid var(--crema-borde);border-radius:10px;padding:1rem 1.3rem;display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--texto)">
+            <div>
+                <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem">Sala de estudio</div>
+                <div style="font-size:0.78rem;color:var(--texto-suave);margin-top:2px">Pomodoro + notas</div>
+            </div>
+            <span style="color:var(--verde-medio);font-size:0.85rem">→</span>
+        </a>
+        <a href="/coreano/notas/" style="background:#fff;border:1px solid var(--crema-borde);border-radius:10px;padding:1rem 1.3rem;display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--texto)">
+            <div>
+                <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:0.95rem">Mis notas</div>
+                <div style="font-size:0.78rem;color:var(--texto-suave);margin-top:2px">Vocabulario y gramática guardados</div>
+            </div>
+            <span style="color:var(--verde-medio);font-size:0.85rem">→</span>
+        </a>
+    </div>
+
+{% if user.is_staff %}
+<div style="margin-top:1.5rem">
+    <div style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--texto-suave);margin-bottom:0.8rem">
+        Panel de James
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.7rem">
+        <a href="/vlogs/crear/" style="background:var(--verde-oscuro);border-radius:10px;padding:1rem 1.2rem;text-decoration:none;display:block">
+            <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:0.9rem;color:var(--blanco-nav)">+ Nuevo vlog</div>
+            <div style="font-size:0.72rem;color:rgba(232,245,224,0.4);margin-top:2px">Publicar guía de viaje</div>
+        </a>
+        <a href="/skincare/crear/" style="background:var(--verde-oscuro);border-radius:10px;padding:1rem 1.2rem;text-decoration:none;display:block">
+            <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:0.9rem;color:var(--blanco-nav)">+ Nuevo producto</div>
+            <div style="font-size:0.72rem;color:rgba(232,245,224,0.4);margin-top:2px">Publicar skincare</div>
+        </a>
+    </div>
+</div>
+{% endif %}
+</main>
+
+<footer class="footer"><p>James en Corea del Sur — Seúl, 2026</p></footer>
+</body>
+</html>

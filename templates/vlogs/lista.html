@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skincare · James en Corea</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="nav-logo">James en Corea</a>
+    <div class="nav-links">
+        <a href="/vlogs/">Vlogs</a>
+        <a href="/skincare/">Skincare</a>
+        <a href="/coreano/">Coreano</a>
+        {% if user.is_authenticated %}
+            <a href="/usuarios/perfil/">Perfil</a>
+            <a href="/usuarios/logout/" class="btn btn-primary" style="padding:7px 18px">Salir</a>
+        {% else %}
+            <a href="/usuarios/login/" class="btn btn-secondary" style="padding:7px 18px">Entrar</a>
+            <a href="/usuarios/registro/" class="btn btn-primary" style="padding:7px 18px">Registro</a>
+        {% endif %}
+    </div>
+</nav>
+
+<section style="background:var(--verde-oscuro);padding:3rem 2.5rem 2.5rem">
+    <div class="hero-tag">Productos coreanos</div>
+    <h1 style="font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;line-height:0.95;color:var(--blanco-nav);letter-spacing:-0.03em;margin-bottom:1rem">
+        Skin<em style="color:var(--verde-claro)">care</em><br>coreano
+    </h1>
+    <p style="font-size:0.85rem;color:rgba(232,245,224,0.5);max-width:340px;line-height:1.7">
+        Qué comprar en Corea y cómo importarlo a Latinoamérica y Europa.
+    </p>
+</section>
+
+<div class="ticker">
+    <div class="ticker-inner">
+        <span class="ticker-item">Cosrx <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Anua <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Innisfree <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Olive Young <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Beauty of Joseon <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Sulwhasoo <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Cosrx <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Anua <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Innisfree <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Olive Young <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Beauty of Joseon <span class="ticker-dot"></span></span>
+        <span class="ticker-item">Sulwhasoo <span class="ticker-dot"></span></span>
+    </div>
+</div>
+
+<main class="main-content">
+    <div style="display:flex;gap:0.6rem;margin-bottom:2rem;flex-wrap:wrap">
+        <a href="/skincare/" class="btn {% if not categoria %}btn-dark{% else %}btn-outline{% endif %}">Todos</a>
+        <a href="/skincare/?categoria=hidratante"  class="btn {% if categoria == 'hidratante' %}btn-dark{% else %}btn-outline{% endif %}">Hidratante</a>
+        <a href="/skincare/?categoria=protector"   class="btn {% if categoria == 'protector' %}btn-dark{% else %}btn-outline{% endif %}">Protector Solar</a>
+        <a href="/skincare/?categoria=serum"       class="btn {% if categoria == 'serum' %}btn-dark{% else %}btn-outline{% endif %}">Sérum</a>
+        <a href="/skincare/?categoria=limpiador"   class="btn {% if categoria == 'limpiador' %}btn-dark{% else %}btn-outline{% endif %}">Limpiador</a>
+    </div>
+
+    <div class="cards-grid">
+        {% for producto in productos %}
+        <div class="card">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+            {% else %}
+                <div class="card-thumb thumb-skincare" style="align-items:center;justify-content:center;display:flex">
+                    <span style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;font-weight:700;color:rgba(232,180,200,0.5)">{{ producto.marca }}</span>
+                </div>
+            {% endif %}
+            <div class="card-body">
+                <span class="card-tag tag-skincare" style="margin-bottom:0.6rem;display:inline-block">{{ producto.get_categoria_display }}</span>
+                <div class="card-title">{{ producto.nombre }}</div>
+                <p class="card-text" style="font-weight:500;color:var(--verde-medio);font-size:0.78rem;margin-bottom:0.3rem">{{ producto.marca }}</p>
+                <p class="card-text">{{ producto.descripcion|truncatewords:14 }}</p>
+                <a href="/skincare/{{ producto.pk }}/" class="btn btn-dark" style="padding:7px 18px">Ver producto</a>
+            </div>
+        </div>
+        {% empty %}
+        <p style="color:var(--texto-suave);grid-column:1/-1;font-size:0.88rem">Próximamente los primeros productos.</p>
+        {% endfor %}
+    </div>
+</main>
+
+<footer class="footer"><p>James en Corea del Sur — Seúl, 2024</p></footer>
+</body>
+</html>
