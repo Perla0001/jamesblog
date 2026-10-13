@@ -58,6 +58,79 @@
                 <a href="/usuarios/login/" class="btn btn-secondary">🤍 Inicia sesión para guardar</a>
             {% endif %}
         </div>
+
+        <!-- SECCIÓN DE COMENTARIOS -->
+<div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #e8e8e8">
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;
+               color:var(--texto);margin-bottom:1.5rem">
+        Comentarios ({{ comentarios.count }})
+    </h2>
+
+    <!-- FORMULARIO PARA COMENTAR -->
+    {% if user.is_authenticated %}
+    <form method="post" action="/vlogs/{{ post.pk }}/comentar/"
+          style="background:#fff;border:1px solid var(--crema-borde);
+                 border-radius:10px;padding:1.2rem;margin-bottom:1.5rem">
+        {% csrf_token %}
+        <div class="form-group">
+            <label style="font-size:0.72rem;letter-spacing:0.07em;
+                          text-transform:uppercase;color:var(--texto-suave)">
+                Tu comentario
+            </label>
+            <textarea name="contenido" rows="3" maxlength="500"
+                      placeholder="Escribe tu comentario..."
+                      style="width:100%;padding:0.65rem 0.9rem;
+                             border:1px solid var(--crema-borde);
+                             border-radius:8px;font-size:0.9rem;
+                             font-family:'DM Sans',sans-serif;
+                             background:var(--crema);resize:vertical"></textarea>
+        </div>
+        <button type="submit" class="btn btn-dark" style="padding:8px 22px">
+            Publicar comentario
+        </button>
+    </form>
+    {% else %}
+    <p style="font-size:0.85rem;color:var(--texto-suave);margin-bottom:1.5rem">
+        <a href="/usuarios/login/" style="color:var(--verde-medio);font-weight:500">
+            Inicia sesión
+        </a> para dejar un comentario.
+    </p>
+    {% endif %}
+
+    <!-- LISTA DE COMENTARIOS -->
+    <div style="display:flex;flex-direction:column;gap:0.8rem">
+        {% for comentario in comentarios %}
+        <div style="background:#fff;border:1px solid var(--crema-borde);
+                    border-radius:10px;padding:1rem 1.2rem">
+            <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.5rem">
+                <div style="width:32px;height:32px;border-radius:50%;
+                            background:var(--verde-claro);display:flex;
+                            align-items:center;justify-content:center;
+                            font-family:'Playfair Display',serif;
+                            font-weight:700;color:var(--verde-oscuro);font-size:0.85rem">
+                    {{ comentario.usuario.username|first|upper }}
+                </div>
+                <div>
+                    <span style="font-weight:500;font-size:0.85rem;color:var(--texto)">
+                        {{ comentario.usuario.username }}
+                    </span>
+                    <span style="font-size:0.72rem;color:var(--texto-suave);margin-left:0.5rem">
+                        {{ comentario.fecha|date:"d/m/Y H:i" }}
+                    </span>
+                </div>
+            </div>
+            <p style="font-size:0.88rem;color:var(--texto);line-height:1.6">
+                {{ comentario.contenido }}
+            </p>
+        </div>
+        {% empty %}
+        <p style="font-size:0.85rem;color:var(--texto-suave);
+                  font-style:italic;text-align:center;padding:1.5rem">
+            Sé el primero en comentar.
+        </p>
+        {% endfor %}
+    </div>
+</div>
     </main>
     <footer class="footer"><p>James Blog 🇰🇷</p></footer>
 </body>

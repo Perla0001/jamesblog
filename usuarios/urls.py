@@ -1,3 +1,4 @@
+""""Configuracions de las direcciones de usuarios"""
 from django.urls import path
 from . import views
 

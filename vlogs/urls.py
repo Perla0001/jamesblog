@@ -9,4 +9,5 @@ urlpatterns = [
     path('vlogs/<int:pk>/editar/', views.editar_vlog, name='editar_vlog'),
     path('vlogs/<int:pk>/eliminar/', views.eliminar_vlog, name='eliminar_vlog'),
     path('vlogs/<int:pk>/favorito/', views.toggle_favorito_vlog, name='toggle_favorito_vlog'),
+    path('vlogs/<int:pk>/comentar/', views.agregar_comentario, name='agregar_comentario'),
 ]

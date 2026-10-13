@@ -92,6 +92,84 @@
     </div>
 </div>
 {% endif %}
+
+    <!-- SECCIÓN DE FAVORITOS -->
+<div style="margin-top:2rem">
+    <div style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;
+                color:var(--texto-suave);margin-bottom:0.8rem">
+        Mis favoritos
+    </div>
+
+    <!-- VLOGS FAVORITOS -->
+    <div style="margin-bottom:1.5rem">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1rem;
+                   font-weight:700;color:var(--texto);margin-bottom:0.8rem">
+            ❤️ Vlogs guardados
+        </h3>
+        <div style="display:flex;flex-direction:column;gap:0.6rem">
+            {% for favorito in favoritos_vlogs %}
+            <a href="/vlogs/{{ favorito.post.pk }}/"
+               style="background:#fff;border:1px solid var(--crema-borde);
+                      border-radius:10px;padding:1rem 1.3rem;
+                      display:flex;align-items:center;
+                      justify-content:space-between;
+                      text-decoration:none;color:var(--texto)">
+                <div>
+                    <div style="font-family:'Playfair Display',serif;
+                                font-weight:700;font-size:0.95rem">
+                        {{ favorito.post.titulo }}
+                    </div>
+                    <div style="font-size:0.75rem;color:var(--texto-suave);margin-top:2px">
+                        {{ favorito.post.get_destino_display }} ·
+                        {{ favorito.post.fecha|date:"d/m/Y" }}
+                    </div>
+                </div>
+                <span style="color:var(--verde-medio);font-size:0.85rem">→</span>
+            </a>
+            {% empty %}
+            <p style="font-size:0.85rem;color:var(--texto-suave);
+                      font-style:italic;padding:0.5rem 0">
+                No tienes vlogs guardados aún.
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- PRODUCTOS FAVORITOS -->
+    <div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1rem;
+                   font-weight:700;color:var(--texto);margin-bottom:0.8rem">
+            🧴 Productos guardados
+        </h3>
+        <div style="display:flex;flex-direction:column;gap:0.6rem">
+            {% for favorito in favoritos_productos %}
+            <a href="/skincare/{{ favorito.producto.pk }}/"
+               style="background:#fff;border:1px solid var(--crema-borde);
+                      border-radius:10px;padding:1rem 1.3rem;
+                      display:flex;align-items:center;
+                      justify-content:space-between;
+                      text-decoration:none;color:var(--texto)">
+                <div>
+                    <div style="font-family:'Playfair Display',serif;
+                                font-weight:700;font-size:0.95rem">
+                        {{ favorito.producto.nombre }}
+                    </div>
+                    <div style="font-size:0.75rem;color:var(--texto-suave);margin-top:2px">
+                        {{ favorito.producto.marca }} ·
+                        {{ favorito.producto.get_categoria_display }}
+                    </div>
+                </div>
+                <span style="color:var(--verde-medio);font-size:0.85rem">→</span>
+            </a>
+            {% empty %}
+            <p style="font-size:0.85rem;color:var(--texto-suave);
+                      font-style:italic;padding:0.5rem 0">
+                No tienes productos guardados aún.
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 </main>
 
 <footer class="footer"><p>James en Corea del Sur — Seúl, 2026</p></footer>
